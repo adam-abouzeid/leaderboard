@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leaderboard</title>
+    <style>
+      table {
+        width: 60%;
+        border-collapse: collapse;
+        margin: 20px auto;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+    </style>
+  </head>
+  <body>
+    <table id="leaderboard">
+      <thead>
+        <tr>
+          <th>Team Name</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Table rows will be inserted here -->
+      </tbody>
+    </table>
+
+    <script>
+      // Function to fetch the leaderboard data and populate the table
+      async function fetchLeaderboard() {
+        const apiUrl = "https://keepthescore.com/api/knqbnntnlltdr/board/";
+        try {
+          const response = await fetch(apiUrl);
+          const data = await response.json();
+          console.log(data);
+          const players = data?.players;
+
+          const tableBody = document
+            .getElementById("leaderboard")
+            .getElementsByTagName("tbody")[0];
+
+          // Clear existing table rows
+          tableBody.innerHTML = "";
+
+          // Populate table with new rows
+          players.forEach((player) => {
+            let row = tableBody.insertRow();
+            let cellName = row.insertCell(0);
+            let cellScore = row.insertCell(1);
+
+            cellName.textContent = player.name;
+            cellScore.textContent = player.score;
+          });
+        } catch (error) {
+          console.error("Error fetching leaderboard:", error);
+        }
+      }
+
+      // Call fetchLeaderboard on page load
+      document.addEventListener("DOMContentLoaded", fetchLeaderboard);
+    </script>
+  </body>
+</html>
+
