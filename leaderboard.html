@@ -4,24 +4,84 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Leaderboard</title>
+
     <style>
-      table {
-        width: 60%;
-        border-collapse: collapse;
-        margin: 20px auto;
+      body {
+        text-align: center;
+        font-family: Arial, sans-serif;
+        color: #016853;
       }
+
+      .logo,
+      .event-image {
+        max-width: 100%;
+        margin: 40px 0;
+        box-shadow: 0 8px 16px rgba(0, 106, 77, 0.1);
+      }
+      .logo {
+        width: 50%;
+      }
+      table {
+        width: 80%;
+        border-collapse: collapse;
+        margin: 40px auto;
+        border: 3px solid #016853;
+      }
+
       th,
       td {
         border: 1px solid #ddd;
-        padding: 8px;
+        padding: 16px;
         text-align: left;
+        font-size: 20px;
       }
+
       th {
-        background-color: #f2f2f2;
+        background-color: #016853;
+        color: #ffffff;
+        padding: 20px;
+      }
+
+      .logo {
+        position: absolute;
+        top: 0;
+        left: 0;
+        max-width: 17%;
+        margin: 20px;
+      }
+
+      .event-image {
+        width: 60%;
+        margin: 20px auto;
+        border-radius: 15px;
+        display: block;
+      }
+
+      h1 {
+        color: #016853;
+        font-size: 48px;
+        font-weight: normal;
+        margin: 20px 0 40px;
+        margin-top: 110px;
+        text-align: center;
       }
     </style>
   </head>
   <body>
+    <img
+      src="assets/Primary logo with tagline - full colors.png"
+      alt="Company Logo"
+      class="logo"
+    />
+
+    <h1>LAU Centennial Rally Paper, Spring 2024</h1>
+
+    <img
+      src="assets/LAU Centennial Rally Paper2..jpg"
+      alt="Event Image"
+      class="event-image"
+    />
+
     <table id="leaderboard">
       <thead>
         <tr>
@@ -29,29 +89,22 @@
           <th>Score</th>
         </tr>
       </thead>
-      <tbody>
-        <!-- Table rows will be inserted here -->
-      </tbody>
+      <tbody></tbody>
     </table>
 
     <script>
-      // Function to fetch the leaderboard data and populate the table
       async function fetchLeaderboard() {
         const apiUrl = "https://keepthescore.com/api/knqbnntnlltdr/board/";
         try {
           const response = await fetch(apiUrl);
           const data = await response.json();
-          console.log(data);
           const players = data?.players;
 
           const tableBody = document
             .getElementById("leaderboard")
             .getElementsByTagName("tbody")[0];
-
-          // Clear existing table rows
           tableBody.innerHTML = "";
 
-          // Populate table with new rows
           players.forEach((player) => {
             let row = tableBody.insertRow();
             let cellName = row.insertCell(0);
@@ -67,6 +120,8 @@
 
       // Call fetchLeaderboard on page load
       document.addEventListener("DOMContentLoaded", fetchLeaderboard);
+
+      setInterval(fetchLeaderboard, 3600000); // 3600000 milliseconds = 1 hour
     </script>
   </body>
 </html>
